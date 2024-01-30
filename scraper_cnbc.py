@@ -20,20 +20,39 @@ driver.get('https://cnbc.com')
 
 a_elements = driver.find_elements(By.XPATH, "//a")
 
+link_list = []
+headline_list = []
+
 for element in a_elements:
 	href = element.get_attribute("href")
 	text = element.text
-	print(f"link:  {href}\n  text:  {text}\n\n")
+	if href and text:
+		if "cnbc.com/2024" in href:
+			print(f"link:  {href}\n  text:  {text}\n\n")
+			link_list.append(href)
+			headline_list.append(text)
 
 #IF LINK IN FORMAT cnbc.com/2024..... THEN ITS RELEVANT
 
 
-print("-------------------------")
-print(articles)
 
-link_list = []
-headline_list = []
 
+
+
+
+output_file_path = "/Users/Jasmit/Documents/GitHub/AI_trader/logs/cnbc_frontpage.txt"
+
+with open(output_file_path, 'w', encoding='utf-8') as file:
+    for headline, link in zip(headline_list, link_list):
+        file.write(f"{headline}\n{link}\n\n")
+
+#only doing first 5 links for now
+for x in range(5):
+	driver.get(link_list[x])
+	output_file_path = "/Users/Jasmit/Documents/GitHub/AI_trader/logs/cnbc_article_"+str(x)+".txt"
+	soup = BeautifulSoup(driver.page_source, 'html.parser')
+	with open(output_file_path, 'w', encoding='utf-8') as file:
+	    file.write(soup.get_text())
 
 driver.quit()
 """
