@@ -41,6 +41,7 @@ for element in a_elements:
 
 
 
+
 output_file_path = "/Users/Jasmit/Documents/GitHub/AI_trader/logs/cnbc_frontpage.txt"
 
 with open(output_file_path, 'w', encoding='utf-8') as file:
